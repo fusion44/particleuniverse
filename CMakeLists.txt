@@ -1,5 +1,8 @@
 set(PROJECT_NAME "ParticleUniverse")
 
+OPTION(PU_BUILD_DEMOS "If the demo application should be build and installed." ON)
+OPTION(PU_BUILD_ATLAS_IMAGE_TOOL "If the AtlasImageTool should be build and installed." ON)
+
 project(${PROJECT_NAME} CXX C)
 cmake_minimum_required(VERSION 2.8)
 
@@ -32,6 +35,12 @@ if (OGRE_VERSION_MAJOR GREATER 1 OR OGRE_VERSION_MINOR GREATER 8)
 endif()
 
 add_subdirectory(Plugins/ParticleUniverse)
-add_subdirectory(Samples/ParticleUniverseDemo)
-add_subdirectory(Tools/AtlasImageTool)
+
+if(PU_BUILD_DEMOS)
+	add_subdirectory(Samples/ParticleUniverseDemo)
+ENDIF()
+
+if(PU_BUILD_ATLAS_IMAGE_TOOL)
+	add_subdirectory(Tools/AtlasImageTool)
+ENDIF()
 
