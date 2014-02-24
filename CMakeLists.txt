@@ -11,6 +11,8 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 	message(FATAL_ERROR "In-source builds are not permitted. Make a separate folder for building:\nmkdir build; cd build; cmake ..\nBefore that, remove the files already created:\nrm -rf CMakeCache.txt CMakeFiles")
 endif(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
 
+SET(CMAKE_DEBUG_POSTFIX "_d")
+
 # Include path for additional CMake library finding scripts
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
@@ -43,4 +45,24 @@ ENDIF()
 if(PU_BUILD_ATLAS_IMAGE_TOOL)
 	add_subdirectory(Tools/AtlasImageTool)
 ENDIF()
+
+MESSAGE("${CMAKE_BINARY_DIR}/${CMAKE_CONFIGURATION_TYPES}")
+
+IF(WIN32)
+	FOREACH(type ${CMAKE_CONFIGURATION_TYPES})
+		install(DIRECTORY "${CMAKE_BINARY_DIR}/${type}"
+			DESTINATION "${CMAKE_INSTALL_PREFIX}/bin"
+			FILES_MATCHING PATTERN "*.dll")
+		
+		install(DIRECTORY "${CMAKE_BINARY_DIR}/${type}"
+			DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
+			FILES_MATCHING PATTERN "*.lib"
+			PATTERN "particleuniversedemo.lib" EXCLUDE
+			PATTERN "atlasimagetool.lib" EXCLUDE)
+	ENDFOREACH(type)
+	
+	install(DIRECTORY "Plugins/ParticleUniverse/include"
+		DESTINATION "${CMAKE_INSTALL_PREFIX}"
+		FILES_MATCHING PATTERN "*.h")
+ENDIF(WIN32)
 
