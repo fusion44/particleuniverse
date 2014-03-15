@@ -1,6 +1,8 @@
 include_directories(include)
 include_directories(${PARTICLEUNIVERSE_INCLUDE_DIRS})
 
+SET(CMAKE_DEBUG_POSTFIX "_d")
+
 set (PARTICLEUNIVERSE_DEMO_NAME "particleuniversedemo")
 
 file(GLOB PROJECT_SOURCES
