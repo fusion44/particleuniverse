@@ -97,6 +97,10 @@ namespace ParticleUniverse
 		mParticleSystemManager->addEmitterFactory(particleEmitterFactory);
 		mEmitterFactories.push_back(particleEmitterFactory);
 
+        particleEmitterFactory = PU_NEW CylinderEmitterFactory();
+        mParticleSystemManager->addEmitterFactory(particleEmitterFactory);
+        mEmitterFactories.push_back(particleEmitterFactory);
+
 		particleEmitterFactory = PU_NEW SphereSurfaceEmitterFactory();
 		mParticleSystemManager->addEmitterFactory(particleEmitterFactory);
 		mEmitterFactories.push_back(particleEmitterFactory);

@@ -59,6 +59,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "ParticleEmitters/ParticleUniverseLineEmitterFactory.h"
 #include "ParticleEmitters/ParticleUniverseBoxEmitterFactory.h"
 #include "ParticleEmitters/ParticleUniverseCircleEmitterFactory.h"
+#include "ParticleEmitters/ParticleUniverseCylinderEmitterFactory.h"
 #include "ParticleEmitters/ParticleUniverseSphereSurfaceEmitterFactory.h"
 #include "ParticleEmitters/ParticleUniverseVertexEmitterFactory.h"
 #include "ParticleEmitters/ParticleUniverseMeshSurfaceEmitterFactory.h"
