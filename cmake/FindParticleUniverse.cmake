@@ -15,13 +15,17 @@ include(FindPkgMacros)
 include(PreprocessorUtils)
 findpkg_begin(ParticleUniverse)
 
+# Get hints about paths with pkg-config
+# TODO: Create and install an actual pkgconfig file through PU's buildsystem
+find_package(PkgConfig)
+pkg_search_module(PC_PARTICLE_UNIVERSE OGRE-ParticleUniverse ParticleUniverse)
+
 STRING(REGEX REPLACE "\\\\" "/" PU_INSTALL_DIR $ENV{PUDIR})
 
 find_path(PARTICLE_UNIVERSE_INCLUDE_DIR ParticleUniversePlugin.h
-			HINTS ${PU_INSTALL_DIR}/include
-)
+          HINTS ${PU_INSTALL_DIR}/include ${PC_PARTICLE_UNIVERSE_INCLUDE_DIRS} )
 
-find_library(PARTICLE_UNIVERSE_LIBRARY_REL NAMES Plugin_ParticleUniverse libPlugin_ParticleUniverse
+find_library(PARTICLE_UNIVERSE_LIBRARY_REL NAMES Plugin_ParticleUniverse Plugin_ParticleUniverse.so libPlugin_ParticleUniverse
              HINTS ${PC_PARTICLE_UNIVERSE_LIBDIR} ${PC_PARTICLE_UNIVERSE_LIBRARY_DIRS} ${PU_INSTALL_DIR}/lib/Release ${PU_INSTALL_DIR}/lib/RelWithDebInfo ${PU_INSTALL_DIR}/lib/MinSizeRel )
 
 # Only search for the debug library if in a debug build
