@@ -20,7 +20,9 @@ findpkg_begin(ParticleUniverse)
 find_package(PkgConfig)
 pkg_search_module(PC_PARTICLE_UNIVERSE OGRE-ParticleUniverse ParticleUniverse)
 
-STRING(REGEX REPLACE "\\\\" "/" PU_INSTALL_DIR $ENV{PUDIR})
+if (WIN32 AND DEFINED ENV{PUDIR})
+  STRING(REGEX REPLACE "\\\\" "/" PU_INSTALL_DIR $ENV{PUDIR})
+endif (WIN32 AND DEFINED ENV{PUDIR})
 
 find_path(PARTICLE_UNIVERSE_INCLUDE_DIR ParticleUniversePlugin.h
           HINTS ${PC_PARTICLE_UNIVERSE_INCLUDE_DIRS}
