@@ -23,20 +23,27 @@ pkg_search_module(PC_PARTICLE_UNIVERSE OGRE-ParticleUniverse ParticleUniverse)
 STRING(REGEX REPLACE "\\\\" "/" PU_INSTALL_DIR $ENV{PUDIR})
 
 find_path(PARTICLE_UNIVERSE_INCLUDE_DIR ParticleUniversePlugin.h
-          HINTS ${PU_INSTALL_DIR}/include ${PC_PARTICLE_UNIVERSE_INCLUDE_DIRS} )
-
-find_library(PARTICLE_UNIVERSE_LIBRARY_REL NAMES Plugin_ParticleUniverse Plugin_ParticleUniverse.so libPlugin_ParticleUniverse
-             HINTS ${PC_PARTICLE_UNIVERSE_LIBDIR} ${PC_PARTICLE_UNIVERSE_LIBRARY_DIRS} ${PU_INSTALL_DIR}/lib/Release ${PU_INSTALL_DIR}/lib/RelWithDebInfo ${PU_INSTALL_DIR}/lib/MinSizeRel )
+          HINTS ${PC_PARTICLE_UNIVERSE_INCLUDE_DIRS}
+                ${PU_INSTALL_DIR}/include
+                ${OGRE_INCLUDE_DIR}/Plugins/ParticleUniverse )
 
 # Only search for the debug library if in a debug build
 string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LC)
+
 if (CMAKE_BUILD_TYPE_LC STREQUAL "debug")
-  find_library(PARTICLE_UNIVERSE_LIBRARY_DEBUG NAMES Plugin_ParticleUniverse_d libPlugin_ParticleUniverse_d
-               HINTS ${PC_PARTICLE_UNIVERSE_LIBDIR} ${PC_PARTICLE_UNIVERSE_LIBRARY_DIRS} ${PU_INSTALL_DIR}/lib/Debug )
+  find_library(PARTICLE_UNIVERSE_LIBRARY_DEBUG NAMES Plugin_ParticleUniverse_d Plugin_ParticleUniverse_d.so libPlugin_ParticleUniverse_d
+               HINTS ${PC_PARTICLE_UNIVERSE_LIBDIR} ${PC_PARTICLE_UNIVERSE_LIBRARY_DIRS}
+                     ${PU_INSTALL_DIR}/lib/Debug
+                     ${OGRE_PLUGIN_DIR_DBG} )
 
   set(PARTICLE_UNIVERSE_LIBRARIES_DEBUG ${PARTICLE_UNIVERSE_LIBRARY_DEBUG} )
   set(PARTICLE_UNIVERSE_LIBRARIES ${PARTICLE_UNIVERSE_LIBRARY_DEBUG} )
 else (CMAKE_BUILD_TYPE_LC STREQUAL "debug")
+  find_library(PARTICLE_UNIVERSE_LIBRARY_REL NAMES Plugin_ParticleUniverse Plugin_ParticleUniverse.so libPlugin_ParticleUniverse
+               HINTS ${PC_PARTICLE_UNIVERSE_LIBDIR} ${PC_PARTICLE_UNIVERSE_LIBRARY_DIRS}
+                     ${PU_INSTALL_DIR}/lib/Release ${PU_INSTALL_DIR}/lib/RelWithDebInfo ${PU_INSTALL_DIR}/lib/MinSizeRel
+                     ${OGRE_PLUGIN_DIR_REL} )
+
   set(PARTICLE_UNIVERSE_LIBRARIES_REL ${PARTICLE_UNIVERSE_LIBRARY_REL}  )
   set(PARTICLE_UNIVERSE_LIBRARIES ${PARTICLE_UNIVERSE_LIBRARY_REL} )
 endif (CMAKE_BUILD_TYPE_LC STREQUAL "debug")
